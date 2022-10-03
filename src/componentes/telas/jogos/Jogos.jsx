@@ -1,20 +1,21 @@
 import { useState, useEffect } from "react";
-import PrediosContext from "./PrediosContext";
+import JogosContext from "./JogosContext";
 import Tabela from "./Tabela";
 import Form from "./Form";
 
-function Predios() {
+function Jogos() {
 
     const [alerta, setAlerta] = useState({ "status": "", "message": "" });
     const [listaObjetos, setListaObjetos] = useState([]);
     const [editar, setEditar] = useState(false);
     const [objeto, setObjeto] = useState({
-        codigo: "", nome: "", descricao: "",
-        sigla: ""
+        codigo: "", numero: "", descricao: "",
+        capacidade: "", predio : ""
     });
+    const [listaProdutoras, setListaProdutoras] = useState([]);
 
     const recuperar = async codigo => {
-        await fetch(`${process.env.REACT_APP_ENDERECO_API}/predios/${codigo}`)
+        await fetch(`${process.env.REACT_APP_ENDERECO_API}/jogos/${codigo}`)
             .then(response => response.json())
             .then(data => setObjeto(data))
             .catch(err => setAlerta({ "status": "error", "message": err }))
@@ -24,7 +25,7 @@ function Predios() {
         e.preventDefault();
         const metodo = editar ? "PUT" : "POST";
         try {
-            await fetch(`${process.env.REACT_APP_ENDERECO_API}/predios`,
+            await fetch(`${process.env.REACT_APP_ENDERECO_API}/jogos`,
                 {
                     method: metodo,
                     headers: {"Content-Type": "application/json"},
@@ -40,7 +41,7 @@ function Predios() {
         } catch (err) {
             setAlerta({ "status": "error", "message": err })
         }
-        recuperaPredios();
+        recuperaJogos();
     }
 
     const handleChange = (e) => {
@@ -49,25 +50,32 @@ function Predios() {
         setObjeto({ ...objeto, [name]: value });
     }
 
-    const recuperaPredios = async () => {
-        await fetch(`${process.env.REACT_APP_ENDERECO_API}/predios`)
+    const recuperaProdutoras = async () => {
+        await fetch(`${process.env.REACT_APP_ENDERECO_API}/produtoras`)
+            .then(response => response.json())
+            .then(data => setListaProdutoras(data))
+            .catch(err => setAlerta({ "status": "error", "message": err }))
+    }
+
+    const recuperaJogos = async () => {
+        await fetch(`${process.env.REACT_APP_ENDERECO_API}/jogos`)
             .then(response => response.json())
             .then(data => setListaObjetos(data))
             .catch(err => setAlerta({ "status": "error", "message": err }))
-    }
+    }    
 
     const remover = async objeto => {
         if (window.confirm('Deseja remover este objeto?')) {
             try {
                 await
-                    fetch(`${process.env.REACT_APP_ENDERECO_API}/predios/${objeto.codigo}`,
+                    fetch(`${process.env.REACT_APP_ENDERECO_API}/jogos/${objeto.codigo}`,
                         { method: "DELETE" })
                         .then(response => response.json())
                         .then(json => setAlerta({
                             "status": json.status,
                             "message": json.message
                         }))
-                recuperaPredios();
+                recuperaJogos();
             } catch (err) {
                 setAlerta({ "status": "error", "message": err })
             }
@@ -75,27 +83,28 @@ function Predios() {
     }
 
     useEffect(() => {
-        recuperaPredios();
+        recuperaProdutoras();
+        recuperaJogos();
     }, []);
 
     return (
-        <PrediosContext.Provider value={
+        <JogosContext.Provider value={
             {
                 alerta, setAlerta,
                 listaObjetos, setListaObjetos,
-                recuperaPredios, remover,
+                recuperaProdutoras, remover,
                 objeto, setObjeto,
                 editar, setEditar,
                 recuperar,
-                acaoCadastrar, handleChange
+                acaoCadastrar, handleChange, listaProdutoras
             }
         }>
             <Tabela />
             <Form />
 
-        </PrediosContext.Provider>
+        </JogosContext.Provider>
     )
 
 }
 
-export default Predios;
+export default Jogos;

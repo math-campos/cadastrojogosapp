@@ -1,21 +1,20 @@
 import { useState, useEffect } from "react";
-import SalasContext from "./SalasContext";
+import ProdutorasContext from "./ProdutorasContext";
 import Tabela from "./Tabela";
 import Form from "./Form";
 
-function Salas() {
+function Produtoras() {
 
     const [alerta, setAlerta] = useState({ "status": "", "message": "" });
     const [listaObjetos, setListaObjetos] = useState([]);
     const [editar, setEditar] = useState(false);
     const [objeto, setObjeto] = useState({
-        codigo: "", numero: "", descricao: "",
-        capacidade: "", predio : ""
+        codigo: "", nome: "", descricao: "",
+        sigla: ""
     });
-    const [listaPredios, setListaPredios] = useState([]);
 
     const recuperar = async codigo => {
-        await fetch(`${process.env.REACT_APP_ENDERECO_API}/salas/${codigo}`)
+        await fetch(`${process.env.REACT_APP_ENDERECO_API}/produtoras/${codigo}`)
             .then(response => response.json())
             .then(data => setObjeto(data))
             .catch(err => setAlerta({ "status": "error", "message": err }))
@@ -25,7 +24,7 @@ function Salas() {
         e.preventDefault();
         const metodo = editar ? "PUT" : "POST";
         try {
-            await fetch(`${process.env.REACT_APP_ENDERECO_API}/salas`,
+            await fetch(`${process.env.REACT_APP_ENDERECO_API}/produtoras`,
                 {
                     method: metodo,
                     headers: {"Content-Type": "application/json"},
@@ -41,7 +40,7 @@ function Salas() {
         } catch (err) {
             setAlerta({ "status": "error", "message": err })
         }
-        recuperaSalas();
+        recuperaProdutoras();
     }
 
     const handleChange = (e) => {
@@ -50,32 +49,25 @@ function Salas() {
         setObjeto({ ...objeto, [name]: value });
     }
 
-    const recuperaPredios = async () => {
-        await fetch(`${process.env.REACT_APP_ENDERECO_API}/predios`)
-            .then(response => response.json())
-            .then(data => setListaPredios(data))
-            .catch(err => setAlerta({ "status": "error", "message": err }))
-    }
-
-    const recuperaSalas = async () => {
-        await fetch(`${process.env.REACT_APP_ENDERECO_API}/salas`)
+    const recuperaProdutoras = async () => {
+        await fetch(`${process.env.REACT_APP_ENDERECO_API}/produtoras`)
             .then(response => response.json())
             .then(data => setListaObjetos(data))
             .catch(err => setAlerta({ "status": "error", "message": err }))
-    }    
+    }
 
     const remover = async objeto => {
         if (window.confirm('Deseja remover este objeto?')) {
             try {
                 await
-                    fetch(`${process.env.REACT_APP_ENDERECO_API}/salas/${objeto.codigo}`,
+                    fetch(`${process.env.REACT_APP_ENDERECO_API}/produtoras/${objeto.codigo}`,
                         { method: "DELETE" })
                         .then(response => response.json())
                         .then(json => setAlerta({
                             "status": json.status,
                             "message": json.message
                         }))
-                recuperaSalas();
+                recuperaProdutoras();
             } catch (err) {
                 setAlerta({ "status": "error", "message": err })
             }
@@ -83,28 +75,27 @@ function Salas() {
     }
 
     useEffect(() => {
-        recuperaPredios();
-        recuperaSalas();
+        recuperaProdutoras();
     }, []);
 
     return (
-        <SalasContext.Provider value={
+        <ProdutorasContext.Provider value={
             {
                 alerta, setAlerta,
                 listaObjetos, setListaObjetos,
-                recuperaPredios, remover,
+                recuperaProdutoras, remover,
                 objeto, setObjeto,
                 editar, setEditar,
                 recuperar,
-                acaoCadastrar, handleChange, listaPredios
+                acaoCadastrar, handleChange
             }
         }>
             <Tabela />
             <Form />
 
-        </SalasContext.Provider>
+        </ProdutorasContext.Provider>
     )
 
 }
 
-export default Salas;
+export default Produtoras;

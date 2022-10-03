@@ -1,24 +1,22 @@
 import { useContext } from "react";
-import PrediosContext from "./PrediosContext";
+import JogosContext from "./JogosContext";
 import Alerta from "../../Alerta";
 import Titulo from "../../comuns/Titulo";
 
 function Tabela() {
 
     const { setObjeto, alerta, setAlerta, listaObjetos, remover,
-        setEditar, recuperar } = useContext(PrediosContext);
+        setEditar, recuperar } = useContext(JogosContext);
 
     return (
         <div style={{ padding: '20px' }}>            
-            <Titulo texto="Prédios"/>
+            <Titulo texto="Produtoras"/>
             <button className="btn btn-primary"
                 data-bs-toggle="modal" data-bs-target="#modalEdicao"
                 onClick={() => {
                     setObjeto({
-                        codigo: 0,
-                        nome: "",
-                        descricao: "",
-                        sigla: ""
+                        codigo: 0, nome: "", descricao: "",
+                        estrelas: "", produtora : ""
                     })
                     setEditar(false);
                     setAlerta({ status: "", message: "" });
@@ -27,7 +25,7 @@ function Tabela() {
             </button>
             <Alerta alerta={alerta} />
             {listaObjetos.length === 0 &&
-                <h1>Nenhum prédio encontrado</h1>}
+                <h1>Nenhuma produtora encontrada</h1>}
             {listaObjetos.length > 0 && (
                 <table className="table">
                     <thead>
@@ -36,7 +34,8 @@ function Tabela() {
                             <th scope="col">Código</th>
                             <th scope="col">Nome</th>
                             <th scope="col">Descrição</th>
-                            <th scope="col">Sigla</th>
+                            <th scope="col">Estrelas</th>
+                            <th scope="col">Produtora</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -60,7 +59,8 @@ function Tabela() {
                                 <td>{objeto.codigo}</td>
                                 <td>{objeto.nome}</td>
                                 <td>{objeto.descricao}</td>
-                                <td>{objeto.sigla}</td>
+                                <td>{objeto.estrelas}</td>
+                                <td>{objeto.produtora}</td>
                             </tr>
                         ))}
                     </tbody>

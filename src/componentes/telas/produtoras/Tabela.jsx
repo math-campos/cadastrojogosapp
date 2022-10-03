@@ -1,22 +1,23 @@
 import { useContext } from "react";
-import SalasContext from "./SalasContext";
+import ProdutorasContext from "./ProdutorasContext";
 import Alerta from "../../Alerta";
 import Titulo from "../../comuns/Titulo";
 
 function Tabela() {
 
     const { setObjeto, alerta, setAlerta, listaObjetos, remover,
-        setEditar, recuperar } = useContext(SalasContext);
+        setEditar, recuperar } = useContext(ProdutorasContext);
 
     return (
         <div style={{ padding: '20px' }}>            
-            <Titulo texto="Prédios"/>
+            <Titulo texto="Produtoras"/>
             <button className="btn btn-primary"
                 data-bs-toggle="modal" data-bs-target="#modalEdicao"
                 onClick={() => {
                     setObjeto({
-                        codigo: 0, numero: "", descricao: "",
-                        capacidade: "", predio : ""
+                        codigo: 0,
+                        nome: "",
+                        descricao: ""
                     })
                     setEditar(false);
                     setAlerta({ status: "", message: "" });
@@ -25,17 +26,15 @@ function Tabela() {
             </button>
             <Alerta alerta={alerta} />
             {listaObjetos.length === 0 &&
-                <h1>Nenhum prédio encontrado</h1>}
+                <h1>Nenhuma produtora encontrada</h1>}
             {listaObjetos.length > 0 && (
                 <table className="table">
                     <thead>
                         <tr>
                             <th scope="col" style={{ textAlign: 'center' }}>Ações</th>
                             <th scope="col">Código</th>
-                            <th scope="col">Numero</th>
+                            <th scope="col">Nome</th>
                             <th scope="col">Descrição</th>
-                            <th scope="col">Capacidade</th>
-                            <th scope="col">Prédio</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -57,10 +56,8 @@ function Tabela() {
                                     </button>
                                 </td>
                                 <td>{objeto.codigo}</td>
-                                <td>{objeto.numero}</td>
+                                <td>{objeto.nome}</td>
                                 <td>{objeto.descricao}</td>
-                                <td>{objeto.capacidade}</td>
-                                <td>{objeto.nomepredio}</td>
                             </tr>
                         ))}
                     </tbody>

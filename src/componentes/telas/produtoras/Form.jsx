@@ -1,13 +1,13 @@
 import { useContext } from "react";
 import Alerta from "../../Alerta";
-import PrediosContext from "./PrediosContext";
+import ProdutorasContext from "./ProdutorasContext";
 import CampoEntrada from "../../comuns/CampoEntrada";
 import Dialogo from "../../comuns/Dialogo";
 
 function Form() {
 
     const { objeto, handleChange, acaoCadastrar, alerta } =
-        useContext(PrediosContext);
+        useContext(ProdutorasContext);
 
     (() => {
         'use strict'
@@ -29,7 +29,7 @@ function Form() {
     })()
 
     return (
-        <Dialogo id="modalEdicao" titulo="Prédio" idform="formulario"
+        <Dialogo id="modalEdicao" titulo="Produtora" idform="formulario"
             acaoCadastrar={acaoCadastrar}>
             <Alerta alerta={alerta} />
             <CampoEntrada id="txtCodigo" label="Código" tipo="number"
@@ -50,12 +50,6 @@ function Form() {
                 readonly={false} tamanho={40}
                 msgvalido="Campo descrição OK"
                 msginvalido="Campo descrição é obrigatório" />
-            <CampoEntrada id="txtSigla" label="Sigla" tipo="text"
-                name="sigla" value={objeto.sigla}
-                onchange={handleChange} requerido={true}
-                readonly={false} tamanho={4}
-                msgvalido="Campo Sigla OK"
-                msginvalido="Campo Sigla é obrigatório" />
         </Dialogo>
     )
 }

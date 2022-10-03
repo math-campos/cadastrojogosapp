@@ -6,8 +6,8 @@ import Menu from './componentes/Menu'
 import Home from './componentes/Home'
 import {BrowserRouter as Router, Routes , Route } from 'react-router-dom'
 import React from 'react';
-import Predios from './componentes/telas/predios/Predios';
-import Salas from './componentes/telas/salas/Salas'
+import Produtoras from './componentes/telas/produtoras/Produtoras';
+import Jogos from './componentes/telas/jogos/Jogos'
 
 function App() {
   return (
@@ -15,8 +15,8 @@ function App() {
         <Menu/>
         <Routes>
           <Route exact path="/" element={<Home/>}/>
-          <Route exact path="/predios" element={<Predios/>}/>
-          <Route exact path="/salas" element={<Salas/>}/>
+          <Route exact path="/produtoras" element={<Produtoras/>}/>
+          <Route exact path="/jogos" element={<Jogos/>}/>
         </Routes>
     </Router>
   );

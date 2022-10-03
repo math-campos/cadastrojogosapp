@@ -1,6 +1,6 @@
 const Home = () => (
     <div>
-        <h1>APP de Salas de Aula</h1>
+        <h1>Cadastro de Jogos</h1>
     </div>
 );
 

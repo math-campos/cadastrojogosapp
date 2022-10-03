@@ -1,13 +1,13 @@
 import { useContext } from "react";
 import Alerta from "../../Alerta";
-import SalasContext from "./SalasContext";
+import JogosContext from "./JogosContext";
 import CampoEntrada from "../../comuns/CampoEntrada";
 import Dialogo from "../../comuns/Dialogo";
 
 function Form() {
 
     const { objeto, handleChange, acaoCadastrar, alerta, listaPredios } =
-        useContext(SalasContext);
+        useContext(JogosContext);
 
     (() => {
         'use strict'
@@ -29,7 +29,7 @@ function Form() {
     })()
 
     return (
-        <Dialogo id="modalEdicao" titulo="Prédio" idform="formulario"
+        <Dialogo id="modalEdicao" titulo="Jogo" idform="formulario"
             acaoCadastrar={acaoCadastrar}>
             <Alerta alerta={alerta} />
             <CampoEntrada id="txtCodigo" label="Código" tipo="number"
@@ -38,48 +38,48 @@ function Form() {
                 readonly={true} tamanho={5}
                 msgvalido=""
                 msginvalido="" />
-            <CampoEntrada id="txtNumero" label="Numero" tipo="number"
-                name="numero" value={objeto.numero}
+            <CampoEntrada id="txtNome" label="Nome" tipo="text"
+                name="nome" value={objeto.nome}
                 onchange={handleChange} requerido={true}
                 readonly={false} tamanho={5}
-                msgvalido="Campo número OK"
-                msginvalido="Campo número é obrigatório" />
+                msgvalido="Campo nome OK"
+                msginvalido="Campo nome é obrigatório" />
             <CampoEntrada id="txtDescricao" label="Descrição" tipo="text"
                 name="descricao" value={objeto.descricao}
                 onchange={handleChange} requerido={true}
                 readonly={false} tamanho={40}
                 msgvalido="Campo descrição OK"
                 msginvalido="Campo descrição é obrigatório" />
-            <CampoEntrada id="txtCapacidade" label="Capacidade"
+            <CampoEntrada id="txtEstrelas" label="Estrelas"
                 tipo="number"
-                name="capacidade" value={objeto.capacidade}
+                name="estrelas" value={objeto.estrelas}
                 onchange={handleChange} requerido={true}
                 readonly={false} tamanho={5}
-                msgvalido="Campo Capacidade OK"
-                msginvalido="Campo Capacidade é obrigatório" />
+                msgvalido="Campo Estrelas OK"
+                msginvalido="Campo Estrelas é obrigatório" />
             <div className="form-group">
-                <label htmlFor="selectPredio" className="form-label">
-                    Prédio
+                <label htmlFor="selectProdutora" className="form-label">
+                    Produtora
                 </label>
                 <select required className="form-control"
-                    name="predio" value={objeto.predio} id="selectPredio"
+                    name="predio" value={objeto.produtora} id="selectProdutora"
                     onChange={handleChange}>
                     <option disable="true" value="">
-                        (Selecione o prédio)
+                        (Selecione a produtora)
                     </option>
-                    {listaPredios.map((predio) => (
+                    {listaPredios.map((produtora) => (
                         <option
-                            key={predio.codigo} value={predio.codigo}>
-                            {predio.nome}
+                            key={produtora.codigo} value={produtora.codigo}>
+                            {produtora.nome}
                         </option>
                     ))
                     }
                 </select>
                 <div className="valid-feedback">
-                    Campo Prédio OK
+                    Campo Produtora OK
                 </div>
                 <div className="invalid-feedback">
-                    Selecione um prédio
+                    Selecione uma produtora
                 </div>
             </div>
         </Dialogo>
