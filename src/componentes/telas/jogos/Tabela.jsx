@@ -10,7 +10,7 @@ function Tabela() {
 
     return (
         <div style={{ padding: '20px' }}>            
-            <Titulo texto="Produtoras"/>
+            <Titulo texto="Jogos"/>
             <button className="btn btn-primary"
                 data-bs-toggle="modal" data-bs-target="#modalEdicao"
                 onClick={() => {
@@ -25,7 +25,7 @@ function Tabela() {
             </button>
             <Alerta alerta={alerta} />
             {listaObjetos.length === 0 &&
-                <h1>Nenhuma produtora encontrada</h1>}
+                <h1>Nenhum jogo encontrado</h1>}
             {listaObjetos.length > 0 && (
                 <table className="table">
                     <thead>
@@ -42,7 +42,7 @@ function Tabela() {
                         {listaObjetos.map(objeto => (
                             <tr key={objeto.codigo}>
                                 <td align="center">
-                                    <button className="btn btn-info"
+                                    <button className="btn btn-success"
                                         data-bs-toggle="modal" data-bs-target="#modalEdicao"
                                         onClick={() => {
                                             recuperar(objeto.codigo);

@@ -41,7 +41,7 @@ function Tabela() {
                         {listaObjetos.map(objeto => (
                             <tr key={objeto.codigo}>
                                 <td align="center">
-                                    <button className="btn btn-info"
+                                    <button className="btn btn-success"
                                         data-bs-toggle="modal" data-bs-target="#modalEdicao"
                                         onClick={() => {
                                             recuperar(objeto.codigo);

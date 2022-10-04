@@ -9,8 +9,8 @@ function Jogos() {
     const [listaObjetos, setListaObjetos] = useState([]);
     const [editar, setEditar] = useState(false);
     const [objeto, setObjeto] = useState({
-        codigo: "", numero: "", descricao: "",
-        capacidade: "", predio : ""
+        codigo: "", nome: "", descricao: "",
+        estrelas: "", produtora : ""
     });
     const [listaProdutoras, setListaProdutoras] = useState([]);
 

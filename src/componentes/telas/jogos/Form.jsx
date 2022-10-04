@@ -6,7 +6,7 @@ import Dialogo from "../../comuns/Dialogo";
 
 function Form() {
 
-    const { objeto, handleChange, acaoCadastrar, alerta, listaPredios } =
+    const { objeto, handleChange, acaoCadastrar, alerta, listaProdutoras } =
         useContext(JogosContext);
 
     (() => {
@@ -62,12 +62,12 @@ function Form() {
                     Produtora
                 </label>
                 <select required className="form-control"
-                    name="predio" value={objeto.produtora} id="selectProdutora"
+                    name="produtora" value={objeto.produtora} id="selectProdutora"
                     onChange={handleChange}>
                     <option disable="true" value="">
                         (Selecione a produtora)
                     </option>
-                    {listaPredios.map((produtora) => (
+                    {listaProdutoras.map((produtora) => (
                         <option
                             key={produtora.codigo} value={produtora.codigo}>
                             {produtora.nome}
