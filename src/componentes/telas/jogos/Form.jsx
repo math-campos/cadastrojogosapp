@@ -54,7 +54,7 @@ function Form() {
                 tipo="number"
                 name="estrelas" value={objeto.estrelas}
                 onchange={handleChange} requerido={true}
-                readonly={false} tamanho={5}
+                readonly={false} tamanho={1}
                 msgvalido="Campo Estrelas OK"
                 msginvalido="Campo Estrelas é obrigatório" />
             <div className="form-group">
