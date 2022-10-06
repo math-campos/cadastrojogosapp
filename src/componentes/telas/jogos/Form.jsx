@@ -41,7 +41,7 @@ function Form() {
             <CampoEntrada id="txtNome" label="Nome" tipo="text"
                 name="nome" value={objeto.nome}
                 onchange={handleChange} requerido={true}
-                readonly={false} tamanho={5}
+                readonly={false} tamanho={60}
                 msgvalido="Campo nome OK"
                 msginvalido="Campo nome é obrigatório" />
             <CampoEntrada id="txtDescricao" label="Descrição" tipo="text"
