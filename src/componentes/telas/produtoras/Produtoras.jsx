@@ -2,13 +2,8 @@ import { useState, useEffect } from "react";
 import ProdutorasContext from "./ProdutorasContext";
 import Tabela from "./Tabela";
 import Form from "./Form";
-import WithAuth from "../../seg/WithAuth";
-import Autenticacao from "../../seg/Autenticacao";
-import { useNavigate } from "react-router-dom";
 
 function Produtoras() {
-
-    let navigate = useNavigate();
 
     const [alerta, setAlerta] = useState({ "status": "", "message": "" });
     const [listaObjetos, setListaObjetos] = useState([]);
@@ -19,27 +14,10 @@ function Produtoras() {
     });
 
     const recuperar = async codigo => {
-        try {
-            await fetch(`${process.env.REACT_APP_ENDERECO_API}/produtoras/${codigo}`, {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    "x-access-token": Autenticacao.pegaAutenticacao().token
-                }
-            })
-                .then(response => {
-                    if (response.ok) {
-                        return response.json();
-                    }
-                    throw new Error('Erro código: ' + response.status);
-                })
-                .then(data => setObjeto(data))
-        }
-        catch (err) {
-            setAlerta({ "status": "error", "message": err })
-            window.location.reload();
-            navigate("/login", { replace: true });
-        }
+        await fetch(`${process.env.REACT_APP_ENDERECO_API}/produtoras/${codigo}`)
+            .then(response => response.json())
+            .then(data => setObjeto(data))
+            .catch(err => setAlerta({ "status": "error", "message": err }))
     }
 
     const acaoCadastrar = async e => {
@@ -49,17 +27,9 @@ function Produtoras() {
             await fetch(`${process.env.REACT_APP_ENDERECO_API}/produtoras`,
                 {
                     method: metodo,
-                    headers: {
-                        "Content-Type": "application/json",
-                        "x-access-token": Autenticacao.pegaAutenticacao().token
-                    },
+                    headers: {"Content-Type": "application/json"},
                     body: JSON.stringify(objeto)
-                }).then(response => {
-                    if (response.ok) {
-                        return response.json();
-                    }
-                    throw new Error('Erro código: ' + response.status)
-                })
+                }).then(response => response.json())
                 .then(json => {
                     setAlerta({ status: json.status, message: json.message });
                     setObjeto(json.objeto);
@@ -69,8 +39,6 @@ function Produtoras() {
                 })
         } catch (err) {
             setAlerta({ "status": "error", "message": err })
-            window.location.reload();
-            navigate("/login", { replace: true });
         }
         recuperaProdutoras();
     }
@@ -82,48 +50,26 @@ function Produtoras() {
     }
 
     const recuperaProdutoras = async () => {
-        try {
-            await fetch(`${process.env.REACT_APP_ENDERECO_API}/produtoras`, {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    "x-access-token": Autenticacao.pegaAutenticacao().token
-                }
-            })
-                .then(response => {
-                    if (response.ok) {
-                        return response.json();
-                    }
-                    throw new Error('Erro código: ' + response.status)
-                })
-                .then(data => setListaObjetos(data))
-                .catch(err => setAlerta({ "status": "error", "message": err }))
-        } catch (err) {
-            setAlerta({ "status": "error", "message": err })
-            window.location.reload();
-            navigate("/login", { replace: true });
-        }
+        await fetch(`${process.env.REACT_APP_ENDERECO_API}/produtoras`)
+            .then(response => response.json())
+            .then(data => setListaObjetos(data))
+            .catch(err => setAlerta({ "status": "error", "message": err }))
     }
 
     const remover = async objeto => {
         if (window.confirm('Deseja remover este objeto?')) {
             try {
                 await
-                fetch(`${process.env.REACT_APP_ENDERECO_API}/produtoras/${objeto.codigo}`,
-                        {
-                            method: "DELETE",
-                            headers: {
-                                "Content-Type": "application/json",
-                                "x-access-token": Autenticacao.pegaAutenticacao().token
-                            }
-                        })
+                    fetch(`${process.env.REACT_APP_ENDERECO_API}/produtoras/${objeto.codigo}`,
+                        { method: "DELETE" })
                         .then(response => response.json())
-                        .then(json => setAlerta({ status: json.status, message: json.message }))
-                    recuperaProdutoras();
+                        .then(json => setAlerta({
+                            "status": json.status,
+                            "message": json.message
+                        }))
+                recuperaProdutoras();
             } catch (err) {
-                console.log(err);
-                window.location.reload();
-                navigate("/login", { replace: true });
+                setAlerta({ "status": "error", "message": err })
             }
         }
     }
@@ -152,4 +98,4 @@ function Produtoras() {
 
 }
 
-export default WithAuth(Produtoras);
+export default Produtoras;
